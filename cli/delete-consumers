@@ -1,0 +1,10 @@
+az container delete --resource-group clc3-project --name clc3-container-1-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-2-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-3-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-4-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-5-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-6-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-7-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-8-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-9-1810454004 -y
+az container delete --resource-group clc3-project --name clc3-container-10-1810454004 -y

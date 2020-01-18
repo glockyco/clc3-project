@@ -1,0 +1,344 @@
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jhawk="jhawk"
+    targetNamespace="jhawk"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+>
+    <xs:element name="System" type="jhawk:SystemType"/>
+
+    <!-- Systems -->
+
+    <xs:complexType name="SystemType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="Name" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:long" name="Time" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="Locale" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="jhawk:LOCType" name="LOC" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="jhawk:PackagesType" name="Packages" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="LOCType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:nonNegativeInteger" name="TL" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="BL" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="CI" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="CO" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- Packages -->
+
+    <xs:complexType name="PackagesType">
+        <xs:sequence>
+            <xs:element type="jhawk:PackageType" name="Package" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PackageType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="OwningSystem" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="Name" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="jhawk:PackageMetricsType" name="Metrics" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="jhawk:ClassesType" name="Classes" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PackageMetricsType">
+        <xs:all>
+            <xs:element type="xs:string" name="name" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="numberOfClasses" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfMethods" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfStatements" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="cumulativeNumberOfComments" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="cumulativeNumberOfCommentLines" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="loc" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="RVF" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="tcc" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="fanin" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="fanout" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="maxcc" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:float" name="maintainabilityIndex" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="maintainabilityIndexNC" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="abstractness" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="instability" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="distance" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="avcc" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:float" name="halsteadCumulativeBugs" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="halsteadEffort" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="halsteadCumulativeVolume" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="halsteadCumulativeLength" minOccurs="1" maxOccurs="1"/>
+        </xs:all>
+    </xs:complexType>
+
+    <!-- Classes -->
+
+    <xs:complexType name="ClassesType">
+        <xs:sequence>
+            <xs:element type="jhawk:ClassType" name="Class" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ClassType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="SuperClass" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="OwningPackage" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="ClassName" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="jhawk:ClassMetricsType" name="Metrics" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="jhawk:MethodsType" name="Methods" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ClassMetricsType">
+        <xs:all>
+            <xs:element type="xs:string" name="name" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="superclass" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="loc" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="dit" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="numberOfSuperclasses" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfSubclasses" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfMethods" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfCommands" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfQueries" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfStatements" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="cumulativeNumberOfComments" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="cumulativeNumberOfCommentLines" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="fanIn" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="fanOut" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="messagePassingCoupling" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="unweightedClassSize" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="responseForClass" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="maxcc" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="cbo" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="tcc" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:float" name="maintainabilityIndex" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="maintainabilityIndexNC" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="specializationRatio" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="reuseRatio" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="lcom" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="lcom2" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="avcc" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="coh" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="six" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="REVF" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:float" name="halsteadCumulativeBugs" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="halsteadEffort" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="halsteadCumulativeVolume" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="halsteadCumulativeLength" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="jhawk:importedPackagesType" name="importedPackages" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:classesReferencedType" name="classesReferenced" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:localMethodCallsType" name="localMethodCalls" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:externalMethodCallsType" name="externalMethodCalls" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:externalMethodsCalledType" name="externalMethodsCalled" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:hierarchyMethodCallsType" name="hierarchyMethodCalls" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:interfacesType" name="interfaces" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:modifiersType" name="modifiers" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:instanceVariablesType" name="instanceVariables" minOccurs="0" maxOccurs="1"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="importedPackagesType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="importedPackage" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="localMethodCallsType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="localMethodCall" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="hierarchyMethodCallsType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="hierarchyMethodCall" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="externalMethodCallsType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="externalMethodCall" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="interfacesType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="interface" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="modifiersType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="modifier" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="instanceVariablesType">
+        <xs:sequence>
+            <xs:element type="jhawk:typedReferenceType" name="instanceVariable" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Methods -->
+
+    <xs:complexType name="MethodsType">
+        <xs:sequence>
+            <xs:element type="jhawk:MethodType" name="Method" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MethodType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="ClassName" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="Name" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="ReturnValue" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="jhawk:MethodMetricsType" name="Metrics" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MethodMetricsType">
+        <xs:all>
+            <xs:element type="xs:string" name="name" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="loc" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="cyclomaticComplexity" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfArguments" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfCasts" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfComments" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfCommentLines" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfExpressions" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfVariableDeclarations" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfLoops" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfOperands" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfOperators" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfStatements" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="numberOfVariableReferences" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="totalNesting" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="maxDepthOfNesting" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="xs:nonNegativeInteger" name="halsteadLength" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:nonNegativeInteger" name="halsteadVocabulary" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="halsteadBugs" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="halsteadDifficulty" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="halsteadEffort" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:float" name="halsteadVolume" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element type="jhawk:classesReferencedType" name="classesReferenced" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:externalMethodsCalledType" name="externalMethodsCalled" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:localMethodsType" name="localMethods" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:variablesDeclaredType" name="variablesDeclared" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:variablesReferencedType" name="variablesReferenced" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:instanceVariablesReferencedType" name="instanceVariablesReferenced" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:localInstanceVariablesReferencedType" name="localInstanceVariablesReferenced" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:exceptionsReferencedType" name="exceptionsReferenced" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:exceptionsThrownType" name="exceptionsThrown" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:argumentsType" name="arguments" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="jhawk:modifiersType" name="modifiers" minOccurs="0" maxOccurs="1"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="externalMethodsCalledType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="externalMethodCalled" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="localMethodsType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="localMethod" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="argumentsType">
+        <xs:sequence>
+            <xs:element type="jhawk:typedReferenceType" name="argument" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="variablesDeclaredType">
+        <xs:sequence>
+            <xs:element type="jhawk:typedReferenceType" name="variableDeclared" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="variablesReferencedType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="variableReferenced" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="instanceVariablesReferencedType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="instanceVariableReferenced" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="localInstanceVariablesReferencedType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="localInstanceVariableReferenced" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="exceptionsReferencedType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="exceptionReferenced" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="exceptionsThrownType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="exceptionThrown" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Utilities -->
+
+    <xs:complexType name="classesReferencedType">
+        <xs:sequence>
+            <xs:element type="jhawk:countableReferenceType" name="classReferenced" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="countableReferenceType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="K" use="required"/>
+                <xs:attribute type="xs:nonNegativeInteger" name="V" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="typedReferenceType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="K" use="required"/>
+                <xs:attribute type="xs:string" name="V" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+</xs:schema>
